@@ -145,6 +145,28 @@ def remove_from_cart(product_id):
         return jsonify({"message": "Product removed from the cart successfully"})
     return jsonify({"message": "Failed to remove Product from the cart"})
 
+@app.route('/api/carts', methods=['GET'])
+def view_cart():
+    user = User.query.get(int(current_user.id))
+    cart_items = user.cart
+    cart_list = []
+    for cart_item in cart_items:
+        product = Product.get
+        cart_list.append({
+            "id": cart_item.id,
+            "user_id": cart_item.user_id,
+            "product_id": cart_item.product_id,
+            "product_info": {
+                "name": product.name,
+                "price": product.price,
+                "description": product.description
+            }
+        })
+    return jsonify(cart_list), 200
+
+
+
+
 @app.route('/')
 def index():
     return 'Hello World!'
