@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_login import UserMixin, LoginManager, login_user, login_required
+from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user
 import os
 from dotenv import load_dotenv
 
@@ -41,6 +41,11 @@ def login():
         login_user(user)
         return jsonify({"message": "Logged successfully"})
     return jsonify({"message": "Unauthorized. Invalid username or password"})
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    logout_user()
+    return jsonify({"message": "Logout successfully"})
 
 @app.route('/api/products/add', methods=['POST'])
 @login_required
