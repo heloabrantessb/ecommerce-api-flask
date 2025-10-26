@@ -32,7 +32,7 @@ def delete_product(product_id):
     return jsonify({"message": "Product not found"}), 404
 
 @app.route('/api/products/<int:product_id>', methods=['GET'])
-def get_product(product_id):
+def get_product_by_id(product_id):
     product = Product.query.get(product_id)
     if product:
         return jsonify({
@@ -62,6 +62,19 @@ def update_product(product_id):
     db.session.commit()
     return jsonify({"message": "Product updated successfully"}), 200
 
+@app.route('/api/products', methods=['GET'])
+def get_all_products():
+    products = Product.query.all()
+    product_list = []
+    for product in products:
+        product_data = {
+            "id": product.id,
+            "name": product.name,
+            "price": product.price,
+            "description": product.description
+        }
+        product_list.append(product_data)
+    return jsonify(product_list), 200
 
 
 @app.route('/')
