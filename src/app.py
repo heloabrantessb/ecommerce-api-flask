@@ -4,12 +4,16 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 import os
 from dotenv import load_dotenv
 
+from src.models import *
+from src.database import db
+
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ecommerce-flask-API.db'
 
+db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
